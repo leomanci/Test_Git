@@ -1,0 +1,30 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:appHostable" access="global">
+    <ltng:require styles="/resource/slds0121/assets/styles/salesforce-lightning-design-system.css"/>
+
+    <aura:registerEvent name="searchEvent" type="c:SearchPaths"/>
+    
+    <aura:attribute name="keyword" type="String"/>   
+    <aura:attribute name="countryFilter" type="String"/>
+    
+    <form class="slds-form--stacked">
+    	<div class="slds-form-element">
+          <label class="slds-form-element__label" for="keywordSearch">Search for:</label>
+          <div class="slds-form-element__control">                     
+          	<ui:inputText aura:id="keywordSearch" class="slds-input" value="{!v.keyword}" required="true" placeholder="What are you looking for?"/>              
+          </div>
+        </div>
+        
+        <div class="slds-form-element">
+          <label class="slds-form-element__label" for="country">In which country?</label>
+          <div class="slds-form-element__control">
+          	<ui:inputText aura:id="country" class="slds-input" value="{!v.countryFilter}" required="true" placeholder="Select a country"/>              
+          </div>
+        </div>
+        
+		<div class="slds-button-group" role="group">
+            <ui:button class="slds-button slds-button--neutral" press="{!c.doSearch}" label="Search"/>
+  			<button class="slds-button slds-button--neutral" onclick="{!c.doClear}">Clear Results</button>  			
+        </div>                    
+    </form>     
+    <c:InsitutuionSearchResult />
+</aura:component>

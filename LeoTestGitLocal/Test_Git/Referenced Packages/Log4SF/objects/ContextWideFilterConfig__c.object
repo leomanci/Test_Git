@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <description>Configuration of context wide filter like active etc.</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Active__c</fullName>
+        <defaultValue>true</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Defines if filter is active or not.</description>
+        <externalId>false</externalId>
+        <label>Active</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>OnMatch__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Defines wich result return on match of clause in the filter, like ACCEPT, DENY or NEUTRAL</description>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>On match</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>OnMismatch__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Defines wich result return on mismatch of clause in the filter, like ACCEPT, DENY or NEUTRAL</description>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>On mismatch</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Log4SF Context wide filter</label>
+    <visibility>Public</visibility>
+</CustomObject>

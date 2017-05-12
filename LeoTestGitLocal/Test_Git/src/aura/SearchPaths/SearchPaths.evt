@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" description="Search institution paths">  
+    <aura:attribute name="country" type="String" default=""/>
+    <aura:attribute name="keyword" type="String" default=""/>
+</aura:event>

@@ -1,0 +1,38 @@
+<aura:component implements="force:appHostable,forceCommunity:availableForAllPageTypes,force:hasRecordId" controller="AttachmentViewerComponentController">
+    <div class="slds-form-element slds-text-align--left">
+    <label class="slds-form-element__label" for="status">Status</label>
+    <div id="status" class="slds-picklist" aria-expanded="true" data-aljs="picklist">
+    <button  onClick="{!c.openTableMenu}" class="slds-button slds-button--neutral slds-picklist__label" aria-haspopup="true">
+        <span class="slds-truncate">Select Status</span>
+
+    </button>
+    <div class="slds-dropdown slds-dropdown--left slds-dropdown--menu" ara:id="dropDownMenu">
+        <ul class="slds-dropdown__list" role="menu">
+            <li id="menu-0-0" href="#" class="slds-dropdown__item">
+                <a href="javascript:void(0)" role="menuitemradio">
+                    <p class="slds-truncate">
+                        Active
+                    </p>
+                </a>
+            </li>
+            <li id="menu-0-1" href="#" class="slds-dropdown__item">
+                <a href="javascript:void(0)" role="menuitemradio">
+                    <p class="slds-truncate">
+    
+                        Completed
+                    </p>
+                </a>
+            </li>
+            <li id="menu-0-2" href="#" class="slds-dropdown__item">
+                <a href="javascript:void(0)" role="menuitemradio">
+                    <p class="slds-truncate">
+                        
+                        Cancelled
+                    </p>
+                </a>
+            </li>
+        </ul>
+    </div>
+    </div>
+    </div>
+</aura:component>

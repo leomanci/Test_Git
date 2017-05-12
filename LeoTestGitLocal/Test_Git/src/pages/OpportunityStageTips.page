@@ -1,0 +1,14 @@
+<apex:page standardController="Opportunity">
+    <div id="prospect" style="display:{!IF(Opportunity.StageName="Prospecting","block","none")};">
+        Tip 1
+    </div>
+    <div id="prospect" style="display:{!IF(Opportunity.StageName="Needs Analysis","block","none")};">
+        Tip 2
+    </div>
+    <div id="prospect" style="display:{!IF(Opportunity.StageName="Proposal/Price Quote","block","none")};">
+        Tip 3
+    </div>
+    <div id="prospect" style="display:{!IF(Opportunity.StageName="Negotiation/Review","block","none")};">
+        Tip 4
+    </div>
+</apex:page>

@@ -1,0 +1,544 @@
+<apex:page standardStylesheets="false" showChat="false" showHeader="false" sidebar="false">
+
+    <head>
+     <meta http-equiv="X-UA-Compatible" content="IE=edge;" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="{!URLFOR($Resource.freshereditor,'freshereditor/shortcut.js')}" type="text/javascript"></script>
+    <script src="{!URLFOR($Resource.freshereditor,'freshereditor/farbtastic/farbtastic.js')}" type="text/javascript"></script>
+    <script src="{!URLFOR($Resource.freshereditor,'freshereditor/bootstrap/bootstrap-dropdown.js')}" type="text/javascript"></script>
+    <script src="{!URLFOR($Resource.freshereditor,'freshereditor/freshereditor.min.js')}" type="text/javascript"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#editor').freshereditor({toolbar_selector: "#toolbar", excludes: ['removeFormat', 'insertheading4','FontSize','forecolor','backcolor','createlink','insertimage','insertorderedlist','insertunorderedlist','insertparagraph','blockquote','code','superscript','subscript']});
+        $("#editor").freshereditor("edit", true);
+    });
+    </script>
+    <link href="{!URLFOR($Resource.freshereditor,'freshereditor/bootstrap/bootstrap.css')}" rel="stylesheet" type="text/css" />
+    <link href="{!URLFOR($Resource.freshereditor,'freshereditor/farbtastic/farbtastic.css')}" rel="stylesheet" type="text/css" />
+    <link href="{!URLFOR($Resource.freshereditor,'freshereditor/freshereditor.css')}" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+    .dshow,.dhide {
+        color: #33aefd;
+    }
+    body{
+        background-color:rgb(230, 236, 239);
+    }
+    .dshow:hover,.dhide:hover {
+        text-decoration: none;
+    }
+    
+    #editor {
+        border-radius: 5px;
+        border: 1px solid #aaa;
+        min-height: 23px;
+        min-width: 207px;
+        width: 214px;
+        white-space: nowrap;
+        overflow: hidden;
+        background: white;
+        padding: 8px;
+        outline: none;
+        color: #052942;
+        font-size:14px;
+    }
+    
+    #toolbar {
+        margin: 10px;
+    }
+    
+    .dropdown-menu {
+        overflow-y: scroll;
+        height: 100px;
+        margin-top: -76px;
+    }
+    
+    .btn-group.open .dropdown-menu {
+        display: block;
+        margin-top: -263%;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+    }
+    
+    .fieldLabel {
+        font-weight: 400 !important;
+    }
+    
+    #tblEditing {
+        font-family: 'Open Sans', 'sans-serif';
+        
+    }
+    
+    .activeBtn {
+        border: 1px inset #1D659F;
+    }
+    </style>
+    <script>  
+        var lblId=''; 
+        var container = parent.$('.ExpandDiv').parent();
+        function assignValues(){
+
+          if(parent.$("#defaultValue").attr('name') == undefined){
+              lblId=$(container).find('.ExpandDiv').prev().prev().attr('id');
+          }else if(parent.$("#defaultValue").attr('name') == "GENERALTEXT"){
+            //  lblId=$(container).find('.ExpandDiv').prev().prev().prev().find('label').attr('id');
+            /// updated on mar 30 2015- by balinder (can't edit general text- FIXED)
+           lblId= $(container).find('.ExpandDiv').parents('.fieldLi').find('div:first-child label:first-child').attr('id');
+          }else if(parent.$("#defaultValue").attr('name') == "CAPTCHAINPUT"){
+              lblId=$(container).find('.ExpandDiv').prev().prev().prev().find('label').attr('id');
+          }else if(/FileUpload/i.test(parent.$("#defaultValue").attr('name'))){
+              lblId=parent.parent.$("#defaultValue").attr('name');
+          }else{
+          
+          ////commented on nov 24 - to fix the issue: on label text  change in Edit panel
+             /* var reval=parent.$("#defaultValue").attr('name').substring(0,parent.$("#defaultValue").attr('name').indexOf("."));
+              lblId=parent.$("#defaultValue").attr('name').replace(reval+".", "");
+              //Secondary Object ID
+              if(lblId.indexOf('.') > 0)
+              reval=lblId.substring(0,lblId.indexOf("."));
+              lblId=lblId.replace(reval+".", "");*/
+              ////added on nov 24 - to fix the issue: on label text  change in Edit panel
+              if(parent.$("#hiddenLiLabelId").val()===undefined)
+           { 
+            var reval=parent.$("#defaultValue").attr('name').substring(0,parent.$("#defaultValue").attr('name').indexOf("."));
+              lblId=parent.$("#defaultValue").attr('name').replace(reval+".", "");
+              //Secondary Object ID
+              if(lblId.indexOf('.') > 0)
+              reval=lblId.substring(0,lblId.indexOf("."));
+              lblId=lblId.replace(reval+".", "");
+           }
+           else{
+            lblId=parent.$("#hiddenLiLabelId").val();
+             if(lblId.indexOf('lbl') >=0)
+             {
+            lblId= lblId.replace('lbl', '');
+             }
+            console.log(" assign values if last line :lblId- "+lblId );
+           }
+          }
+         // alert(lblId);
+        }      
+        
+        $( document ).ready(function() {           
+           assignValues();
+           if(document.getElementById('editor').addEventListener){
+               document.getElementById('editor').addEventListener("keyup", function() {
+                      if(parent.$("#defaultValue").attr('name') == undefined){
+                          $(container).find('#'+lblId).html($('#editor').text());
+                      }else if(parent.$("#defaultValue").attr('name') == "GENERALTEXT"){
+                          lblId=lblId.replace('lblli','lbl');
+                          $(container).find('#'+lblId).html($('#editor').text());
+                       }else if(parent.$("#defaultValue").attr('name') == "CAPTCHAINPUT"){
+                          lblId=lblId.replace('lblli','lbl');
+                          $(container).find('#'+lblId).html($('#editor').text());
+                      }else if(/FileUpload/i.test(parent.$("#defaultValue").attr('name'))){
+                         $(container).find( "div:first" ).find( "label:first" ).html($('#editor').text()); 
+                        /*to fix File upload label edit issue on April 13 2015 */
+                       //   $(container).find('#lbl'+lblId+'_Select').html($('#editor').text());                     
+
+                         
+                      }else{
+                          $(container).find('#lbl'+lblId).eq(0).html($('#editor').text());
+                      }
+               }, false);
+               
+               $("#editor").on('blur', function() {
+               		parent.isChangesMadeInForm = true;
+                  mixpanel.track('Field label changed',{ "Field ID": lblId});
+               });
+           }else{              
+              document.getElementById('editor').attachEvent("onkeyup", function() {
+                      if(parent.$("#defaultValue").attr('name') == undefined){
+                          $(container).find('#'+lblId).html($('#editor').text());
+                      }else if(parent.$("#defaultValue").attr('name') == "GENERALTEXT"){
+                          lblId=lblId.replace('lblli','lbl');
+                          $(container).find('#'+lblId).html($('#editor').text());
+                       }else if(parent.$("#defaultValue").attr('name') == "CAPTCHAINPUT"){
+                          lblId=lblId.replace('lblli','lbl');
+                          $(container).find('#'+lblId).html($('#editor').text());
+                      }else if(/FileUpload/i.test(parent.$("#defaultValue").attr('name'))){
+                          $(container).find( "div:first" ).find( "label:first" ).html($('#editor').text()); 
+                        /*to fix File upload label edit issue on April 13 2015 */
+                       //  $(container).find('#lbl'+lblId+'_Select').html($('#editor').text());                      
+                      }else{
+                          $(container).find('#lbl'+lblId).eq(0).html($('#editor').text());
+                      }
+               }); 
+               $("#editor").on('blur', function() {
+               		parent.isChangesMadeInForm = true;
+                  mixpanel.track('Field label changed',{ "Field ID": lblId});
+               });               
+           } 
+           setTimeout(function(){
+               $('#editor').html($('#editor').html().replace("<br>", " "));
+               if($('#editor').html() == $('#editor').text()){
+                   $('.dshow').show();
+                   $('.dhide').hide();
+               }else{
+                   $('.dshow').hide();
+                   $('.dhide').show();                  
+               }
+               placeCaretAtEnd(document.getElementById("editor"));
+           }, 500);   
+           $('.toolbar_bold').click(function() {    
+           	   parent.isChangesMadeInForm = true;   
+               if($('#editor').hasClass('b')){
+                  $('#editor').removeClass('b');                  
+                  var valEditor = $('#editor').html();
+                  valEditor=valEditor.replace("<b>", " ");
+                  $('#editor').html(valEditor.replace("</b>", " "));
+                  $('.toolbar_bold').removeClass('activeBtn');                  
+               }else{                   
+                  $('#editor').addClass('b');    
+                  $('#editor').html('<b>'+$('#editor').html()+'</b>');
+                  $('.toolbar_bold').addClass('activeBtn');
+              }
+              if(parent.$("#defaultValue").attr('name') == undefined){
+                  $(container).find('#'+lblId).html($('#editor').html());
+              }else if(parent.$("#defaultValue").attr('name') == "GENERALTEXT" || parent.$("#defaultValue").attr('name') == "CAPTCHAINPUT"){
+                  lblId=lblId.replace('lblli','lbl');
+                  $(container).find('#'+lblId).html($('#editor').html());
+              }else if(/FileUpload/i.test(parent.$("#defaultValue").attr('name'))){
+                  $(container).find( "div:first" ).find( "label:first" ).html($('#editor').html()); 
+                        /*to fix File upload label edit issue on April 13 2015 */
+                       //  $(container).find('#'+lblId+'_Select').html($('#editor').html());
+              }else{
+                  $(container).find('#lbl'+lblId).html($('#editor').html());
+              }    
+            });   
+            $('.toolbar_italic').click(function() {
+              parent.isChangesMadeInForm = true;
+              if($('#editor').hasClass('i')){
+                  $('#editor').removeClass('i');
+                  var valEditor = $('#editor').html();
+                  valEditor=valEditor.replace("<i>", " "); 
+                  $('#editor').html(valEditor.replace("</i>", " "));
+                  $('.toolbar_italic').removeClass('activeBtn');
+              }else{
+                  $('#editor').addClass('i');
+                  $('#editor').html('<i>'+$('#editor').html()+'</i>');
+                  $('.toolbar_italic').addClass('activeBtn');
+              }
+              if(parent.$("#defaultValue").attr('name') == undefined){
+                  $(container).find('#'+lblId).html($('#editor').html());
+              }else if(parent.$("#defaultValue").attr('name') == "GENERALTEXT" || parent.$("#defaultValue").attr('name') == "CAPTCHAINPUT"){
+                  lblId=lblId.replace('lblli','lbl');
+                  $(container).find('#'+lblId).html($('#editor').html());
+              }else if(/FileUpload/i.test(parent.$("#defaultValue").attr('name'))){
+                   $(container).find( "div:first" ).find( "label:first" ).html($('#editor').html()); 
+                        /*to fix File upload label edit issue on April 13 2015 */
+                       // $(container).find('#'+lblId+'_Select').html($('#editor').html());
+              }else{
+                  $(container).find('#lbl'+lblId).html($('#editor').html());
+              }  
+            });     
+            $('.toolbar_underline').click(function() {
+               parent.isChangesMadeInForm = true;
+               if($('#editor').hasClass('u')){
+                  $('#editor').removeClass('u');
+                  var valEditor = $('#editor').html();
+                  valEditor=valEditor.replace("<u>", " "); 
+                  $('#editor').html(valEditor.replace("</u>", " "));
+                  $('.toolbar_underline').removeClass('activeBtn');
+              }else{
+                  $('#editor').addClass('u');
+                  $('#editor').html('<u>'+$('#editor').html()+'</u>');
+                  $('.toolbar_underline').addClass('activeBtn');
+              }
+              if(parent.$("#defaultValue").attr('name') == undefined){
+                  $(container).find('#'+lblId).html($('#editor').html());
+              }else if(parent.$("#defaultValue").attr('name') == "GENERALTEXT" || parent.$("#defaultValue").attr('name') == "CAPTCHAINPUT" || parent.$("#defaultValue").attr('name') == "btnFileUploadAdd"){
+                  lblId=lblId.replace('lblli','lbl');
+                  $(container).find('#'+lblId).html($('#editor').html());
+              }else if(/FileUpload/i.test(parent.$("#defaultValue").attr('name'))){
+                   $(container).find( "div:first" ).find( "label:first" ).html($('#editor').html()); 
+                        /*to fix File upload label edit issue on April 13 2015 */
+                       // $(container).find('#'+lblId+'_Select').html($('#editor').html());
+              }else{
+                  $(container).find('#lbl'+lblId).html($('#editor').html());
+              }
+            });
+            $('.toolbar_fontname').click(function() {
+              parent.isChangesMadeInForm = true;
+              if($('#editor').hasClass('hs')){
+                  $('.toolbar_fontname').removeClass('activeBtn');
+              }else{
+                  $('#editor').addClass('fs');
+                  $('.toolbar_fontname').addClass('activeBtn');
+              }
+              SelectText('editor');
+            });
+            $('.dropdown-menu li a').click(function() {
+                parent.isChangesMadeInForm = true;
+                SelectText('dsel');
+                if(parent.$("#defaultValue").attr('name') == undefined){
+                      $(container).find('#'+lblId).html($('#editor').html());
+                  }else if(parent.$("#defaultValue").attr('name') == "GENERALTEXT" || parent.$("#defaultValue").attr('name') == "CAPTCHAINPUT" || parent.$("#defaultValue").attr('name') == "btnFileUploadAdd"){
+                      lblId=lblId.replace('lblli','lbl');
+                      $(container).find('#'+lblId).html($('#editor').html());
+                  }else if(/FileUpload/i.test(parent.$("#defaultValue").attr('name'))){
+                      $(container).find( "div:first" ).find( "label:first" ).html($('#editor').html()); 
+                        /*to fix File upload label edit issue on April 13 2015 */
+                       //  $(container).find('#'+lblId+'_Select').html($('#editor').html());
+                  }else{
+                      $(container).find('#lbl'+lblId).html($('#editor').html());
+                  }
+            });
+            
+            
+            $('.toolbar_strikethrough').click(function() {   
+              parent.isChangesMadeInForm = true;
+              if($('#editor').hasClass('s')){
+                  $('#editor').removeClass('s');
+                  var valEditor = $('#editor').html();
+                  valEditor=valEditor.replace("<strike>", " "); 
+                  $('#editor').html(valEditor.replace("</strike>", " "));
+                  
+                  $('.toolbar_strikethrough').removeClass('activeBtn');
+              }else{
+                  $('#editor').addClass('s');
+                  $('#editor').html('<strike>'+$('#editor').html()+'</strike>');
+                  
+                  $('.toolbar_strikethrough').addClass('activeBtn');
+              }
+                  if(parent.$("#defaultValue").attr('name') == undefined){
+                      $(container).find('#'+lblId).html($('#editor').html());
+                  }else if(parent.$("#defaultValue").attr('name') == "GENERALTEXT" || parent.$("#defaultValue").attr('name') == "CAPTCHAINPUT" || parent.$("#defaultValue").attr('name') == "btnFileUploadAdd"){
+                      lblId=lblId.replace('lblli','lbl');
+                      $(container).find('#'+lblId).html($('#editor').html());
+                  }else if(/FileUpload/i.test(parent.$("#defaultValue").attr('name'))){
+                      $(container).find( "div:first" ).find( "label:first" ).html($('#editor').html()); 
+                        /*to fix File upload label edit issue on April 13 2015 */
+                       //  $(container).find('#'+lblId+'_Select').html($('#editor').html());
+                  }else{
+                      $(container).find('#lbl'+lblId).html($('#editor').html());
+                  }
+            });
+           
+            $('.toolbar_h1').click(function() {
+              parent.isChangesMadeInForm = true;
+              $('.toolbar_h2').removeClass('activeBtn');
+              $('.toolbar_h3').removeClass('activeBtn');
+              $('#editor').removeClass('h2s');
+              $('#editor').removeClass('h3s');             
+              var valEditorbr = $('#editor').html();
+              valEditorbr=valEditorbr.replace("<h2>", " "); 
+              valEditorbr.replace("</h2>", " "); 
+              valEditorbr=valEditorbr.replace("<h3>", " "); 
+              $('#editor').html(valEditorbr.replace("</h3>", " "));
+              
+              if($('#editor').hasClass('hs')){
+                  $('#editor').removeClass('hs');
+                  var valEditor = $('#editor').html();
+                  valEditor=valEditor.replace("<h1>", " "); 
+                  $('#editor').html(valEditor.replace("</h1>", " "));
+                  
+                  $('.toolbar_h1').removeClass('activeBtn');
+              }else{
+                  $('#editor').addClass('hs');
+                  $('#editor').html('<h1>'+$('#editor').html()+'</h1>');
+                   
+                  $('.toolbar_h1').addClass('activeBtn');
+              }
+                  if(parent.$("#defaultValue").attr('name') == undefined){
+                      $(container).find('#'+lblId).html($('#editor').html());
+                  }else if(parent.$("#defaultValue").attr('name') == "GENERALTEXT" || parent.$("#defaultValue").attr('name') == "CAPTCHAINPUT" || parent.$("#defaultValue").attr('name') == "btnFileUploadAdd"){
+                      lblId=lblId.replace('lblli','lbl');
+                      $(container).find('#'+lblId).html($('#editor').html());
+                  }else if(/FileUpload/i.test(parent.$("#defaultValue").attr('name'))){
+                      $(container).find( "div:first" ).find( "label:first" ).html($('#editor').html()); 
+                        /*to fix File upload label edit issue on April 13 2015 */
+                       //  $(container).find('#'+lblId+'_Select').html($('#editor').html());
+                  }else{
+                      $(container).find('#lbl'+lblId).html($('#editor').html());
+                  }
+            });
+            $('.toolbar_h2').click(function() {
+              parent.isChangesMadeInForm = true;
+              $('.toolbar_h1').removeClass('activeBtn');
+              $('.toolbar_h3').removeClass('activeBtn');
+              $('#editor').removeClass('hs');
+              $('#editor').removeClass('h3s');
+              
+              var valEditorbr = $('#editor').html();
+              valEditorbr=valEditorbr.replace("<h3>", " "); 
+              valEditorbr.replace("</h3>", " "); 
+              valEditorbr=valEditorbr.replace("<h1>", " "); 
+              $('#editor').html(valEditorbr.replace("</h1>", " "));
+              
+              if($('#editor').hasClass('h2s')){
+                  $('#editor').removeClass('h2s');
+                  var valEditor = $('#editor').html();
+                  valEditor=valEditor.replace("<h2>", " "); 
+                  $('#editor').html(valEditor.replace("</h2>", " "));
+                  $('.toolbar_h2').removeClass('activeBtn');
+              }else{
+                  $('#editor').addClass('h2s');
+                  $('#editor').html('<h2>'+$('#editor').html()+'</h2>');
+                  $('.toolbar_h2').addClass('activeBtn');
+              }
+              if(parent.$("#defaultValue").attr('name') == undefined){
+                  $(container).find('#'+lblId).html($('#editor').html());
+              }else if(parent.$("#defaultValue").attr('name') == "GENERALTEXT" || parent.$("#defaultValue").attr('name') == "CAPTCHAINPUT" || parent.$("#defaultValue").attr('name') == "btnFileUploadAdd"){
+                  lblId=lblId.replace('lblli','lbl');
+                  $(container).find('#'+lblId).html($('#editor').html());
+              }else if(/FileUpload/i.test(parent.$("#defaultValue").attr('name'))){
+                   $(container).find( "div:first" ).find( "label:first" ).html($('#editor').html()); 
+                        /*to fix File upload label edit issue on April 13 2015 */
+                       // $(container).find('#'+lblId+'_Select').html($('#editor').html());
+              }else{
+                  $(container).find('#lbl'+lblId).html($('#editor').html());
+              }
+            });
+            $('.toolbar_h3').click(function() {
+              parent.isChangesMadeInForm = true;
+              $('.toolbar_h1').removeClass('activeBtn');
+              $('.toolbar_h2').removeClass('activeBtn'); 
+              $('#editor').removeClass('hs');
+              $('#editor').removeClass('h2s');
+              
+              var valEditorbr = $('#editor').html();
+              valEditorbr=valEditorbr.replace("<h2>", " "); 
+              valEditorbr.replace("</h2>", " "); 
+              valEditorbr=valEditorbr.replace("<h1>", " "); 
+              $('#editor').html(valEditorbr.replace("</h1>", " "));
+                                      
+              if($('#editor').hasClass('h3s')){
+                  $('#editor').removeClass('h3s');
+                  var valEditor = $('#editor').html();
+                  valEditor=valEditor.replace("<h3>", " "); 
+                  $('#editor').html(valEditor.replace("</h3>", " "));                 
+                   
+                  $('.toolbar_h3').removeClass('activeBtn');
+              }else{
+                  $('#editor').addClass('h3s');
+                  $('#editor').html('<h3>'+$('#editor').html()+'</h3>');
+                   
+                  $('.toolbar_h3').addClass('activeBtn');
+              }
+              if(parent.$("#defaultValue").attr('name') == undefined){
+                      $(container).find('#'+lblId).html($('#editor').html());
+                  }else if(parent.$("#defaultValue").attr('name') == "GENERALTEXT" || parent.$("#defaultValue").attr('name') == "CAPTCHAINPUT" || parent.$("#defaultValue").attr('name') == "btnFileUploadAdd"){
+                      lblId=lblId.replace('lblli','lbl');
+                      $(container).find('#'+lblId).html($('#editor').html());
+                  }else if(/FileUpload/i.test(parent.$("#defaultValue").attr('name'))){
+                      $(container).find( "div:first" ).find( "label:first" ).html($('#editor').html()); 
+                        /*to fix File upload label edit issue on April 13 2015 */
+                       //  $(container).find('#'+lblId+'_Select').html($('#editor').html());
+                  }else{
+                      $(container).find('#lbl'+lblId).html($('#editor').html());
+                  }
+            });
+           $('.navbar').hide();
+           
+       });
+       function placeCaretAtEnd(el) {
+            el.focus();
+            if (typeof window.getSelection != "undefined"
+                    && typeof document.createRange != "undefined") {
+                var range = document.createRange();
+                range.selectNodeContents(el);
+                range.collapse(false);
+                var sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+            } else if (typeof document.body.createTextRange != "undefined") {
+                var textRange = document.body.createTextRange();
+                textRange.moveToElementText(el);
+                textRange.collapse(false);
+                textRange.select();
+            }
+        }
+        function SelectText(element) {
+                var doc = document;
+                var text = doc.getElementById(element);    
+                if (doc.body.createTextRange) { // ms
+                    var range = doc.body.createTextRange();
+                    range.moveToElementText(text);
+                    range.select();
+                } else if (window.getSelection) {
+                    var selection = window.getSelection();
+                    var range = doc.createRange();
+                    range.selectNodeContents(text);
+                    selection.removeAllRanges();
+                    selection.addRange(range);            
+                }
+            }
+        function removeStyle(){
+           parent.isChangesMadeInForm = true;
+           $('.dshow').show();
+           $('.navbar').hide();
+           $('.dhide').hide();
+           //remove all active class
+           $('.toolbar_bold').removeClass('activeBtn');
+           $('.toolbar_italic').removeClass('activeBtn');
+           $('.toolbar_underline').removeClass('activeBtn');
+           $('.toolbar_strikethrough').removeClass('activeBtn');
+           $('.toolbar_fontname').removeClass('activeBtn');
+           $('#editor').removeClass('b');
+           $('#editor').removeClass('i');
+           $('#editor').removeClass('u');
+           $('#editor').removeClass('s');
+           $('#editor').removeClass('fs');
+           $('#editor').removeClass('h2s');
+           $('#editor').removeClass('hs');
+           $('.toolbar_h1').removeClass('activeBtn');
+           $('#editor').removeClass('h2s');
+           $('.toolbar_h2').removeClass('activeBtn');
+           $('#editor').removeClass('h3s');
+           $('.toolbar_h3').removeClass('activeBtn');
+           $('#editor').html($('#editor').text());
+           
+          if(parent.$("#defaultValue").attr('name') == undefined){
+              $(container).find('#'+lblId).html($('#editor').text());
+          }else if(parent.$("#defaultValue").attr('name') == "GENERALTEXT" || parent.$("#defaultValue").attr('name') == "CAPTCHAINPUT" || parent.$("#defaultValue").attr('name') == "btnFileUploadAdd"){
+              lblId=lblId.replace('lblli','lbl');
+              $(container).find('#'+lblId).html($('#editor').text());
+          }else if(/FileUpload/i.test(parent.$("#defaultValue").attr('name'))){
+              $(container).find( "div:first" ).find( "label:first" ).html($('#editor').text()); 
+                        /*to fix File upload label edit issue on April 13 2015 */
+                       //  $(container).find('#'+lblId+'_Select').html($('#editor').text());
+          }else{
+              $(container).find('#lbl'+lblId + '.ff-label').html($('#editor').text());
+          }
+       }  
+       function showStyle(){
+           $('.dhide').show();
+           $('.dshow').hide();
+           $('.navbar').show();                      
+       } 
+    
+
+        (function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+        for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
+        mixpanel.init("39b7e8be28cfa1b59fdd342bad0004e0");
+              
+    </script>
+    </head>
+    <div id="dsel"></div>
+    <div>
+    <table id="tblEditing" style="margin-top: 25px; width: 100%">
+        <tr>
+            <td width="33%">
+                <label class="fieldLabel" style="font-family: 'Open Sans', 'sans-serif'; color: #616161; margin-left: 20px; font-size: 14px; margin-top: -17px;">Label:</label>
+                <label id="hideText" style="padding-left:20px;color: #616161;font-size: 11px;"></label>
+            </td>
+            <td width="50%">
+            <div id="wrapper">
+            <div id="editor" class="clear"></div>
+            </div>
+            <a href="" class="dshow" onclick="showStyle();parent.expandDiv();" style="cursor: pointer; float: left; padding-left: 47%; padding-bottom: 10px;">Add Style</a> 
+            <a href="" class="dhide" onclick="removeStyle();parent.callDiv();" style="cursor: pointer; float: right; margin-right: 36%; padding-bottom: 10px;">Remove Style</a> <br />
+            </td>
+        </tr>
+        <tr id="nav">
+            <td width="100%" colspan="2">
+            <div class='navbar navbar-fixed-top' style="background-color: #D7DFE3; display: block; height: 51px; margin-left: -1px; margin-top: 0; padding-bottom: 10px; padding-left: 50px; padding-top: 1px; position: relative; width: 100%;">
+            <div id="toolbar"></div>
+            </div>
+            </td>
+        </tr>
+    </table>
+    </div>
+</apex:page>

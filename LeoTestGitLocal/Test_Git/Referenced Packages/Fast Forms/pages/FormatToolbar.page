@@ -1,0 +1,58 @@
+<apex:page standardStylesheets="false" showChat="false" showHeader="false" sidebar="false">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="{!URLFOR($Resource.freshereditor,'freshereditor/shortcut.js')}" type="text/javascript"></script>
+    <script src="{!URLFOR($Resource.freshereditor,'freshereditor/farbtastic/farbtastic.js')}" type="text/javascript"></script>
+    <script src="{!URLFOR($Resource.freshereditor,'freshereditor/bootstrap/bootstrap-dropdown.js')}" type="text/javascript"></script>  
+    <script src="{!URLFOR($Resource.freshereditor,'freshereditor/freshereditor.min.js')}" type="text/javascript"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#editor').freshereditor({toolbar_selector: "#toolbar", excludes: ['removeFormat', 'insertheading4','FontSize','forecolor','backcolor','createlink','insertimage','insertorderedlist','insertunorderedlist','insertparagraph','blockquote','code','superscript','subscript']});
+        $("#editor").freshereditor("edit", true);
+    });
+    </script>
+    <link href="{!URLFOR($Resource.freshereditor,'freshereditor/bootstrap/bootstrap.css')}" rel="stylesheet" type="text/css" />
+    <link href="{!URLFOR($Resource.freshereditor,'freshereditor/farbtastic/farbtastic.css')}" rel="stylesheet" type="text/css" />
+    <link href="{!URLFOR($Resource.freshereditor,'freshereditor/freshereditor.css')}" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #editor {
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            min-height: 25px;
+            width:300px;
+        }
+        #toolbar {
+            margin:10px;
+        }
+        .dropdown-menu{
+            overflow-y: scroll;
+            height:100px;
+        }
+        
+    </style>
+</head>
+<div >
+    <div class='navbar navbar-fixed-top' >
+        <div id="toolbar"></div>
+        
+    </div>
+    
+    <br/>
+    <br/>
+    <br/>
+        <table style="margin-top:50px;">
+       <tr>
+           <td width="250"><b style="color:black;">Field Label :</b>
+           </td>
+           <td><div id="wrapper">
+                  <div id="editor" class="clear" >
+                  </div> 
+               </div>
+           </td>
+       </tr>
+    </table>
+    
+</div>
+
+</apex:page>

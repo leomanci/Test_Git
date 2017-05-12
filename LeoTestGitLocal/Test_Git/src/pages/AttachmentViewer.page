@@ -1,0 +1,18 @@
+<apex:page standardStylesheets="false">
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS0203, '/assets/styles/salesforce-lightning-design-system.css')}"/>
+   <apex:includeScript value="/lightning/lightning.out.js"/>
+    <script>
+        $Lightning.use("c:AttachmentViewerApp", function() {
+        $Lightning.createComponent(
+            "c:AttachmentViewerComponent",
+            {},
+            "lightning",
+            function(cmp) {
+                console.log('component created');
+                console.log(cmp);
+            });
+        });
+    </script>  
+    
+    <div id="lightning"/>
+</apex:page>

@@ -1,0 +1,16 @@
+<apex:page >
+ <apex:includeScript value="//code.jquery.com/jquery-1.10.2.min.js" /> 
+ <script src="{!URLFOR($Resource.formEditorJS)}"></script>
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>Congratulations</h1>
+  This is your new Page
+  <!-- End Default Content REMOVE THIS -->
+  <script>
+  var listViewId= "";
+        listViewId= '{!JSENCODE($CurrentPage.parameters.itemid)}';
+        console.log(' log id '+listViewId);
+        
+       window.opener.CallBackFromFilterPage(''+listViewId );
+        window.close();
+  </script>
+</apex:page>

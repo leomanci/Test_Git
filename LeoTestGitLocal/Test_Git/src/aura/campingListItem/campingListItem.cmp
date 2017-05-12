@@ -1,0 +1,21 @@
+<aura:component >
+    <aura:attribute name="item" type="Camping_Item__c"/>
+    <tr>
+        <th scope="row" data-label="Name" title="{!v.item.Name}">
+            <div class="slds-truncate">{!v.item.Name}</div>
+        </th>
+        <th scope="row" data-label="Price" title="{!v.item.Price__c}">
+            <div class="slds-truncate">{!v.item.Price__c}</div>
+        </th>
+        <th scope="row" data-label="Quantity" title="{!v.item.Quantity__c}">
+            <div class="slds-truncate">{!v.item.Quantity__c}</div>
+        </th>
+        <th scope="row" data-label="Packed" title="{!v.item.Packed__c}">
+            <div class="slds-truncate">{!v.item.Packed__c}</div>
+        </th>
+    </tr>    
+    <!-- <ui:outputText value="{!v.item.Name}"/><br/>
+ 	<ui:outputCurrency value="{!v.item.Price__c}"/><br/>
+    <ui:outputNumber value="{!v.item.Quantity__c}"/><br/>
+    <ui:outputCheckbox value="{!v.item.Packed__c}"/><br/> -->
+</aura:component>

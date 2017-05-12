@@ -1,0 +1,28 @@
+<apex:page showHeader="false" standardStylesheets="false" docType="html-5.0"
+           applyBodyTag="false" applyHtmlTag="false" sidebar="false">
+    
+    <apex:includescript value="{!URLFOR($Resource.angularjs,'/js/angular.js')}" />
+    <apex:includescript value="{!URLFOR($Resource.angularjs,'/js/angular-route.js')}" />
+    
+    <script>
+    	var myApp=angular.module('myApp', ['ngRoute']);
+    	
+    	/*myApp.controller('landingPageController',function ($scope,$window) {
+                         $scope.nextPage = function() {
+                             $window.location.href='/apex/RecordList';                                   
+        				};
+                     });*/
+    
+    myApp.config(['$routeProvider',function($routeProvider){
+        console.log('in');
+  	 	$routeProvider
+        .when('/listRecords',{
+                    templateUrl: '/apex/RecordList'
+                })
+        		.otherwise({
+                    redirectTo:'/'
+                });              				
+    }]);
+
+    </script>
+</apex:page>

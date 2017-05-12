@@ -1,0 +1,9 @@
+<design:component>
+    <!--<design:attribute name="RecordID" label="RecordID" description="Record ID" /> - no longer required -->
+    <design:attribute name="Field" label="Field" description="Field Name" />
+    <design:attribute name="Value" label="Value" description="Value" />
+    <design:attribute name="objectString" label="Object" description="Object" />
+    <design:attribute name="label" label="label" description="The button label" />
+    <design:attribute name="class" label="Button Class" description="Design Class for the button" />
+    <design:attribute name="ShowButtonOnFieldValue" label="ShowButtonOnFieldValue" description="For the field defined - show button only on this value" />
+</design:component>

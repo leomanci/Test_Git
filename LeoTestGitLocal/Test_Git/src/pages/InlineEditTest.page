@@ -1,0 +1,9 @@
+<apex:page standardController="Account">
+    <apex:form >
+        <apex:outputField value="{!Account.Name}">
+            <apex:inlineEditSupport showOnEdit="saveButton, cancelButton" 
+                                    hideOnEdit="editButton" event="ondblclick" 
+                                    changedStyleClass="myBoldClass" resetFunction="resetInlineEdit"/>
+        </apex:outputField>
+    </apex:form>
+</apex:page>

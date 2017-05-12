@@ -1,0 +1,37 @@
+<apex:page >
+
+<script src="http://enscrollplugin.com/releases/enscroll-0.6.0.min.js"></script>
+<script src="{!URLFOR($Resource.sortable,'sortable/jquery-1.8.3.js')}"></script>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+
+    <title>perfect-scrollbar example</title>
+      <link href="{!URLFOR($Resource.perfectscrollbar,'perfectscrollbar/src/perfect-scrollbar.css')}" rel="stylesheet"/>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+      <script src="{!URLFOR($Resource.perfectscrollbar,'perfectscrollbar/src/jquery.mousewheel.js')}"></script>
+      <script src="{!URLFOR($Resource.perfectscrollbar,'perfectscrollbar/src/perfect-scrollbar.js')}"></script>
+      <style>
+        .contentHolder { position:relative; margin:0px auto; padding:0px; width: 600px; height: 400px; overflow: hidden; }
+        .contentHolder .content { background-image: url('./azusa.jpg'); width: 1280px; height: 720px; }
+        .spacer { text-align:center }
+      </style>
+    <script>
+      jQuery(document).ready(function ($) {
+        "use strict";
+        $('#Default').perfectScrollbar();
+      });
+    </script>
+  </head>
+  <body>
+    <div id="Default" class="contentHolder">
+      <div class="content">
+      </div>
+    </div>
+  </body>
+</html>
+
+
+
+</apex:page>

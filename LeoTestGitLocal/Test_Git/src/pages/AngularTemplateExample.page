@@ -1,0 +1,18 @@
+<apex:page showHeader="false" standardStylesheets="false" docType="html-5.0"
+           applyBodyTag="false" applyHtmlTag="false" sidebar="false">
+    <apex:composition template="MasterAngularTemplate"/>
+    
+    <html>
+        <body ng-app="myApp">
+        	<h1>
+                Welcome to my test page
+            </h1>
+            Please select one of the following:
+            <ol>
+                <li><a href="#listRecords">View accounts and Contacts</a></li>
+                <li>Create Records</li>                
+            </ol>            
+            <div ng-view="ng-view"></div>
+        </body>
+    </html>
+</apex:page>

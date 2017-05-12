@@ -1,0 +1,41 @@
+<aura:component controller="CampingListController">
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+	<aura:handler name="addItem" event="c:addItemEvent" action="{!c.handleAddItem}"/>
+    
+    <aura:attribute name="items" type="Camping_Item__c[]"/>  
+	
+    <div aura:id="errors"></div>
+    
+    <c:campingListForm />
+    
+    <br/>
+    Items in cart:
+    <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+        <thead>
+            <tr class="slds-text-heading--label">
+                <th scope="col" title="Name">
+                    <div class="slds-truncate">Name</div>
+                </th>
+                <th scope="col" title="Price">
+                    <div class="slds-truncate">Price</div>
+                </th>
+                <th scope="col" title="Quantity">
+                    <div class="slds-truncate">Quantity</div>
+                </th>
+                <th scope="col" title="Packed">
+                    <div class="slds-truncate">Packed?</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <aura:iteration items="{!v.items}" var="myVar">
+                <c:campingListItem item="{!myVar}"/>
+            </aura:iteration>
+        </tbody>
+    </table>
+    <!-- <ol>
+      <li>Bug Spray</li>
+      <li>Bear Repellant</li>
+      <li>Goat Food</li>
+    </ol>	-->
+</aura:component>

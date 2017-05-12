@@ -1,0 +1,43 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:hasRecordId" access="global" controller="LightningButtonServerController">
+    <!-- Attributes for the button -->
+   	<aura:attribute name="label" type="String" description="This is the button label"/>
+   	<aura:attribute name="class" type="String" description="SLDS class"/>
+   	<aura:attribute name="data" type="String" description="Any data to be passed via html5 data- attribute"/>
+    <aura:attribute name="disabled" type="Boolean" default="true" description="Attribute for disabling the button"/>
+    <aura:attribute name="ShowButtonOnFieldValue" type="String" description="Show the button if the field defined equals this value"/>
+    
+    <!-- Attributes to use in the server controller -->
+    <!--<aura:attribute name="recordId" type="String"/>   Attribute no longer needed as force:hasRecordId allows us to gather directly from page-->
+    <aura:attribute name="Field" type="String"/>
+    <aura:attribute name="Value" type="String"/>
+    <aura:attribute name="objectString" type="String"/> 
+    <!--<aura:attribute name="recordUpdate" type="Aura.Action" default="{!c.recordUpdate}" description="This allows handling onClick events"/>-->
+    
+
+   	<!-- Attributes for SVG -->
+   	<!--<aura:attribute name="svgXlinkHref" type="String" description="svgIcon's xlink-href"/> -->
+   	<!--<aura:attribute name="svgClass" type="String" description="svgIcon CSS classname"/> -->
+	
+    <!-- Initialise variables -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <ltng:require styles="/resource/SLDS104/assets/styles/salesforce-lightning-design-system-ltng.css" />
+    
+    <div class="slds">
+        <!-- Error message location - dynamically built -->
+        <div aura:id="div1"></div>
+        
+        
+        <!-- Dynamic button -->
+        <div class="slds-grid">  
+            <div class="slds-col--padded-large slds-size--1-of-1">  
+                <button ID ="btnSubmit" class="slds-button slds-button--brand slds-col slds-size--1-of-1" disabled ="{!v.disabled}" onclick="{!c.recordUpdate}" data-data="{!v.data}">
+                    <!--<c:svg xlinkHref="{!v.svgXlinkHref}" class="{!v.svgClass}" />-->
+                    {!v.label}
+                </button>
+            </div> 
+        </div>
+    </div>
+    
+   	
+</aura:component>

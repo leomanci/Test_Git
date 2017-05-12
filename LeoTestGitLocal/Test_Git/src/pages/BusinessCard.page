@@ -1,0 +1,24 @@
+<apex:page >
+    <scipt>
+    <script>
+        function sendInfo() {
+            var emailText = document.getElementById("emailField").value;
+            var account = new SObjectModel.Account();
+            account.create({Name: accountName}, function(error, records) {
+                if (error) {
+                    alert(error.message);
+                } else {
+                   sforce.one.navigateToSObject(records[0]);
+                }
+            });
+        }
+    </script>
+    </scipt>
+    Current User's Info:
+    Name: {!$User.FirstName} {!$User.LastName}<br/>
+    Phone: {!$User.Phone}<br/>
+    Email: {!$User.Email}<br/>
+    Title: {!$User.Title}<br/>
+    <input type="text" name="emailField"/>
+    <button onclick="sendInfo();">Send My Contact Info</button>
+</apex:page>
